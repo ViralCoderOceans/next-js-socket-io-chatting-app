@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .thin-scrollbar::-webkit-scrollbar {
+  width: 5px !important;
+  color: azure !important;
+} */
