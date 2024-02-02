@@ -2,7 +2,7 @@
 
 import { message } from 'antd'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
 export const socket = io('http://localhost:3003')
@@ -13,6 +13,7 @@ const App = () => {
     name: ''
   })
   const router = useRouter()
+  const [username, setUsername] = useState<any>()
 
   const handleJoinRoom = () => {
     if (room.id.includes(' ')) {
@@ -21,17 +22,29 @@ const App = () => {
       if (room.id.trim() !== '' && room.name.trim() !== '') {
         router.push(`/room/${room.id}`)
         localStorage.setItem('current-room-name', room.name)
-        message.success(`You have been successfully joined the room - ${room}`);
+        message.success(`You have been successfully joined the room - ${room.name}`);
       } else {
         message.error('Please fill the inputs');
       }
     }
   }
 
+  useEffect(() => {
+    if (localStorage.getItem('userId')) {
+      setUsername(localStorage.getItem('userId'))
+    } else {
+      localStorage.setItem('userId', `user-${(((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)}`)
+      setUsername(`username-${(((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)}`)
+    }
+  }, [])
+
   return (
     <div className='container h-screen flex justify-center items-center'>
       <div className='w-full md:w-[400px] flex flex-col gap-y-6 p-6 md:bg-zinc-50 md:border border-zinc-100 rounded-lg md:shadow-xl'>
-        <h1 className='text-2xl font-semibold mb-6'>Join or Create a Room</h1>
+        <div>
+          <h1 className='text-2xl font-semibold mb-2'>Join or Create a Room</h1>
+          <h3 className='text-xl font-medium mb-2'>Your username: {username}</h3>
+        </div>
         <div className='flex flex-col gap-y-3'>
           <div className='w-full'>
             <input
