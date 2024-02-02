@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 
-export const socket = io('http://localhost:3003')
+const socket = io('http://localhost:3003')
 
 const App = () => {
   const [room, setRoom] = useState({

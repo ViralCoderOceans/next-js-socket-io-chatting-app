@@ -1,6 +1,5 @@
 "use client"
 
-import { socket } from '@/app/page'
 import { useParams } from 'next/navigation'
 import React, { useState, useEffect, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns';
@@ -8,6 +7,9 @@ import { useRouter } from 'next/navigation';
 import { Tooltip } from 'antd';
 import CustomModal from '@/components/CustomModal';
 import { message as messageAntd } from 'antd';
+import io from 'socket.io-client'
+
+const socket = io('http://localhost:3003')
 
 const ChatRoom = () => {
   const router = useRouter()
@@ -250,6 +252,7 @@ const ChatRoom = () => {
                   }}
                   footer={[
                     <button
+                      key='Go back button'
                       className='bg-transparent border border-black text-base py-1.5 px-3 rounded-lg mr-2'
                       onClick={() => {
                         setIsModalOpen(false)
@@ -261,7 +264,7 @@ const ChatRoom = () => {
                     >
                       Go back
                     </button>,
-                    <button className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg' onClick={handleJoinRoom}>Join Room</button>,
+                    <button key='Join Room button' className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg' onClick={handleJoinRoom}>Join Room</button>,
                   ]}
                 >
                   <div className='w-full md:w-[400px] flex flex-col gap-y-6 mb-5'>
@@ -373,10 +376,10 @@ const ChatRoom = () => {
                 handleOk={handleLeaveRoom}
                 handleCancel={() => setIsLeaveRoomConfirmationModalOpen(false)}
                 footer={[
-                  <button className='bg-transparent border border-black text-base py-1.5 px-3 rounded-lg mr-2' onClick={() => setIsLeaveRoomConfirmationModalOpen(false)}>
+                  <button key='No, Go back button' className='bg-transparent border border-black text-base py-1.5 px-3 rounded-lg mr-2' onClick={() => setIsLeaveRoomConfirmationModalOpen(false)}>
                     No, go back
                   </button>,
-                  <button className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg' onClick={handleLeaveRoom}>Yes, I want to leave</button>,
+                  <button key='Leave Room button' className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg' onClick={handleLeaveRoom}>Yes, I want to leave</button>,
                 ]}
               >
                 <div className='w-full md:w-[400px] flex flex-col gap-y-6 mb-2'>
@@ -406,7 +409,7 @@ const ChatRoom = () => {
                     </div>
                     : <div className='flex-1 my-4 overflow-y-auto flex flex-col gap-4 pr-2'>
                       <h3 className='bg-zinc-100 rounded-lg p-2 px-3 text-center'>
-                        This room don't have any conversation yet, you can start the conversation by dropping the first message
+                        This room don&apos;t have any conversation yet, you can start the conversation by dropping the first message
                       </h3>
                       <div>
                         {
