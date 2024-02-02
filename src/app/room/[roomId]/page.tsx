@@ -101,6 +101,15 @@ const ChatRoom = () => {
     }
   }, [allRooms])
 
+  useEffect(() => {
+    if (crrRoom?.name?.length > 0) {
+      localStorage.setItem('current-room-name', crrRoom?.name)
+    } else {
+      console.log('crrRoom: ', crrRoom)
+      localStorage.setItem('current-room-name', 'Untitled Room')
+    }
+  }, [crrRoom])
+
   const handleSendMessage = () => {
     if (message.trim() !== '') {
       socket.emit('chatMessage', { roomId, message, username })
@@ -199,6 +208,7 @@ const ChatRoom = () => {
         messageAntd.error('Please fill the inputs');
       }
     }
+    setIsModalOpen(false)
   }
 
   const handleOnFocus = () => {
@@ -274,7 +284,7 @@ const ChatRoom = () => {
                     <button key='Join Room button' className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg' onClick={handleJoinRoom}>Join Room</button>,
                   ]}
                 >
-                  <div className='w-full md:w-[400px] flex flex-col gap-y-6 mb-5'>
+                  <div className='w-[calc(100vw-80px)] md:w-[400px] flex flex-col gap-y-6 mb-5'>
                     <div>
                       <h1 className='text-2xl font-semibold mb-2'>Join or Create a Room</h1>
                       <h3 className='text-xl font-medium mb-2'>Your username: {username}</h3>
@@ -337,14 +347,14 @@ const ChatRoom = () => {
             footer={[
               <button
                 key='Go back button'
-                className='bg-transparent border border-black text-sm py-1.5 px-3 rounded-lg mr-2'
+                className='bg-transparent border border-black text-base py-1.5 px-3 rounded-lg mr-2'
                 onClick={() => setIsSwitchRoomModalOpen(false)}
               >
                 Go back
               </button>,
               <button
                 key='Join New Room button'
-                className='bg-black border border-black text-white text-sm py-1.5 px-3 rounded-lg'
+                className='bg-black border border-black text-white text-base py-1.5 px-3 rounded-lg'
                 onClick={() => {
                   setIsModalOpen(true)
                   setIsSwitchRoomModalOpen(false)
@@ -354,7 +364,7 @@ const ChatRoom = () => {
               </button>
             ]}
           >
-            <div className='w-full md:w-[400px] flex flex-col gap-y-6 mb-5'>
+            <div className='w-[calc(100vw-80px)] flex flex-col gap-y-6 mb-5'>
               <div className='w-full flex flex-col justify-between mb-2'>
                 <h5 className='text-lg text-zinc-600 self-center'>Joined Rooms</h5>
                 <hr />
