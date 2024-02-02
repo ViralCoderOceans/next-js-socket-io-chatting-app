@@ -9,7 +9,8 @@ import CustomModal from '@/components/CustomModal';
 import { message as messageAntd } from 'antd';
 import io from 'socket.io-client'
 
-const socket = io('http://localhost:3003')
+// const socket = io('http://localhost:3003')
+const socket = io('https://chatting-app-qc67.onrender.com')
 
 const ChatRoom = () => {
   const router = useRouter()
