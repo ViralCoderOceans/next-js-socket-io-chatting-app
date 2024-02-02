@@ -10,7 +10,12 @@ import { message as messageAntd } from 'antd';
 import io from 'socket.io-client'
 
 // const socket = io('http://localhost:3003')
-const socket = io('https://chatting-app-qc67.onrender.com')
+const socket = io('https://chatting-app-qc67.onrender.com', {
+  withCredentials: true,
+  extraHeaders: {
+    "my-custom-header": "abcd"
+  }
+})
 
 const ChatRoom = () => {
   const router = useRouter()
