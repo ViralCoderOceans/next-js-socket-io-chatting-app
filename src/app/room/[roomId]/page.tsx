@@ -343,6 +343,7 @@ const ChatRoom = () => {
                 Go back
               </button>,
               <button
+                key='Join New Room button'
                 className='bg-black border border-black text-white text-sm py-1.5 px-3 rounded-lg'
                 onClick={() => {
                   setIsModalOpen(true)
