@@ -27,6 +27,7 @@ const ChatRoom = () => {
   const [message, setMessage] = useState('')
   const [username, setUsername] = useState<any>()
   const [isModalOpen, setIsModalOpen] = useState<any>(false)
+  const [isSwitchRoomModalOpen, setIsSwitchRoomModalOpen] = useState<any>(false)
   const [isLeaveRoomConfirmationModalOpen, setIsLeaveRoomConfirmationModalOpen] = useState<any>(false)
   const messagesEndRef = useRef<any>(null)
   const [room, setRoom] = useState({
@@ -327,12 +328,43 @@ const ChatRoom = () => {
               <span className='font-medium text-black'>{username}</span>
             </h3>
           </div>
-          <button
-            className='bg-black text-white text-sm py-2 px-4 rounded-lg'
-            onClick={() => setIsModalOpen(true)}
+          <CustomModal
+            buttonText='Switch room'
+            isModalOpen={isSwitchRoomModalOpen}
+            showModal={() => setIsSwitchRoomModalOpen(true)}
+            handleOk={() => setIsSwitchRoomModalOpen(false)}
+            handleCancel={() => setIsSwitchRoomModalOpen(false)}
+            footer={[
+              <button
+                key='Go back button'
+                className='bg-transparent border border-black text-sm py-1.5 px-3 rounded-lg mr-2'
+                onClick={() => setIsSwitchRoomModalOpen(false)}
+              >
+                Go back
+              </button>,
+              <button
+                className='bg-black border border-black text-white text-sm py-1.5 px-3 rounded-lg'
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setIsSwitchRoomModalOpen(false)
+                }}
+              >
+                Join new
+              </button>
+            ]}
           >
-            Switch room
-          </button>
+            <div className='w-full md:w-[400px] flex flex-col gap-y-6 mb-5'>
+              <div className='w-full flex flex-col justify-between mb-2'>
+                <h5 className='text-lg text-zinc-600 self-center'>Joined Rooms</h5>
+                <hr />
+                <div className='flex flex-col gap-1 py-2'>
+                  {
+                    allRooms.map((room: any) => <RoomHeader key={room.id} room={room} />)
+                  }
+                </div>
+              </div>
+            </div>
+          </CustomModal>
         </div>
         <div className='flex-1 h-[calc(100%-81px)] md:h-full flex flex-col p-0 md:p-4'>
           <div className='w-full justify-between items-center hidden md:flex mb-2'>
